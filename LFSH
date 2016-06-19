@@ -1,0 +1,13 @@
+cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+
+project（LFSH)
+
+find_package(PCL 1.7 REQUIRED COMPONENTS common io feature visualization)
+
+include_directories(${PCL_INCLUDE_DIRS} include)
+
+link_directories(${PCL_LIBRARY_DIRS})
+
+add_difinitions(${PCL_DEFINITIONS})
+
+add_executable(LFSH_TEST src/LFSH_test.cpp)
