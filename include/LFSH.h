@@ -3,6 +3,8 @@
 
 #include <pcl/features/normal_3d_omp.h>
 
+#include <pcl/features/feature.h>
+
 #include "LFSHSignature30.h"
 
 namespace pcl

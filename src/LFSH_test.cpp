@@ -25,6 +25,10 @@ int main()
     //For test
     std::cout << p_src_ptr->size() << std::endl;
 
+    pcl::LFSHEstimation lfsh_extract;
+
+
+
 
 
 

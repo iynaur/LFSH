@@ -3,6 +3,7 @@
 
 CMakeFiles/LFSH_test.dir/src/LFSH_test.cpp.o
  ../include/LFSH.h
+ ../include/LFSHSignature30.h
  /home/steve/Project/LFSH/src/LFSH_test.cpp
  /usr/include/eigen3/Eigen/Cholesky
  /usr/include/eigen3/Eigen/Core
