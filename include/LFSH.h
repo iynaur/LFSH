@@ -13,9 +13,9 @@ namespace pcl
         class LFSHEstimation:public FeatureFromNormals<PointT,PointNT,PointOUTT>
     {
         public:
-            typedef boost::shared_ptr<LFSHEstimation<PointT,PointNT,PointOUTT>> Ptr;
-            typedef boost::shared_ptr<const LFSHEstimation<PointT,PointNT,PointOUTT>> ConstPtr;
-            using Feature<PointT,PointOUTT>::feature_name;
+            typedef boost::shared_ptr<LFSHEstimation<PointT,PointNT,PointOUTT> > Ptr;
+            typedef boost::shared_ptr<const LFSHEstimation<PointT,PointNT,PointOUTT> > ConstPtr;
+            using Feature<PointT,PointOUTT>::feature_name_;
             using Feature<PointT,PointOUTT>::getClassName;
             using Feature<PointT,PointOUTT>::indices_;
             using Feature<PointT,PointOUTT>::k_;
@@ -24,7 +24,7 @@ namespace pcl
             using Feature<PointT,PointOUTT>::surface_;
             using FeatureFromNormals<PointT,PointNT,PointOUTT>::normals_;
 
-            typdef typename Feature<PointT,PointOUTT>::PointCloudOut PointCloudOut;
+            typedef typename Feature<PointT,PointOUTT>::PointCloudOut PointCloudOut;
 
             /** \brief Empty constructor. */
             LFSHEstimation():
@@ -34,6 +34,7 @@ namespace pcl
         {
             feature_name_ = "LFSHEstimation";
         };
+
 
 
 

@@ -10,7 +10,7 @@
 
 
 
-
+>sdlkfj
 int main()
 {
 
@@ -20,6 +20,9 @@ int main()
     pcl::PointCloud<pcl::PointXYZ>::Ptr
         p_src_ptr(new pcl::PointCloud<pcl::PointXYZ>);
 
+
+    pcl::PointCloud<pcl::PointXYZ>::Ptr
+        p_target_ptr(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::io::loadPCDFile<pcl::PointXYZ>("./a.pcd",*p_src_ptr);
 
     //For test
@@ -27,6 +30,11 @@ int main()
 
     pcl::LFSHEstimation lfsh_extract;
 
+    //Add transform build a new point cloud
+    //
+
+
+    //Registration
 
 
 

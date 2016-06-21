@@ -12,13 +12,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b57ad7d-1466-44cf-845f-b325ba8435df" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/CMakeFiles/LFSH_test.dir/src/LFSH_test.cpp.o" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/CMakeFiles/LFSH_test.dir/CXX.includecache" afterPath="$PROJECT_DIR$/build/CMakeFiles/LFSH_test.dir/CXX.includecache" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/CMakeFiles/LFSH_test.dir/depend.internal" afterPath="$PROJECT_DIR$/build/CMakeFiles/LFSH_test.dir/depend.internal" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/CMakeFiles/LFSH_test.dir/depend.make" afterPath="$PROJECT_DIR$/build/CMakeFiles/LFSH_test.dir/depend.make" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/LFSH.h" afterPath="$PROJECT_DIR$/include/LFSH.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/LFSH_test.cpp" afterPath="$PROJECT_DIR$/src/LFSH_test.cpp" />
     </list>
     <ignored path="LFSH.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -94,8 +88,8 @@
       <file leaf-file-name="LFSH.h" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/include/LFSH.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="16" column="84" selection-start-line="16" selection-start-column="84" selection-end-line="16" selection-end-column="84" />
+            <state relative-caret-position="450">
+              <caret line="34" column="45" selection-start-line="34" selection-start-column="45" selection-end-line="34" selection-end-column="45" />
               <folding>
                 <element signature="e#55#94#0" expanded="true" />
                 <element signature="e#189#263#0" expanded="true" />
@@ -416,7 +410,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1920" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24960506" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -572,8 +566,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/include/LFSH.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="84" selection-start-line="16" selection-start-column="84" selection-end-line="16" selection-end-column="84" />
+        <state relative-caret-position="450">
+          <caret line="34" column="45" selection-start-line="34" selection-start-column="45" selection-end-line="34" selection-end-column="45" />
           <folding>
             <element signature="e#55#94#0" expanded="true" />
             <element signature="e#189#263#0" expanded="true" />

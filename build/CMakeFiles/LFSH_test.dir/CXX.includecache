@@ -9,6 +9,8 @@
 ../include/LFSH.h
 pcl/features/normal_3d_omp.h
 -
+pcl/features/feature.h
+-
 LFSHSignature30.h
 ../include/LFSHSignature30.h
 
