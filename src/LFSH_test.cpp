@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "LFSH.h"
+#include "LFSH.hpp"
 
 #include <pcl/io/pcd_io.h>
 
@@ -10,7 +10,6 @@
 
 
 
->sdlkfj
 int main()
 {
 
@@ -28,7 +27,7 @@ int main()
     //For test
     std::cout << p_src_ptr->size() << std::endl;
 
-    pcl::LFSHEstimation lfsh_extract;
+    pcl::LFSHEstimation<pcl::PointXYZ,pcl::PointNormal,pcl::LFSHSignature30> lfsh_extract;
 
     //Add transform build a new point cloud
     //
