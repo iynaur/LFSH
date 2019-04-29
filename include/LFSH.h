@@ -38,6 +38,22 @@ public:
     void
     computeFeature (PointCloudOut &output);
 
+    bool compute(PointCloudOut& output);
+
+    static float dot(Eigen::Vector3f x, Eigen::Vector3f y);
+
+    int computeLocalDepth(Eigen::Vector3f source_normal,
+                          Eigen::Vector3f source_point,
+                          Eigen::Vector3f target_point) const;
+
+
+    int computeDeviationAngle(Eigen::Vector3f source_normal,
+                              Eigen::Vector3f target_normal) const;
+
+    int computeDensity(Eigen::Vector3f source_normal,
+                       Eigen::Vector3f source_point,
+                       Eigen::Vector3f target_point) const;
+
     /** \brief The number of subdivisions for each angular feature interval. */
     int nr_bins_f1_, nr_bins_f2_, nr_bins_f3_;
 
@@ -55,6 +71,25 @@ public:
 
     /** \brief Float constant = 1.0 / (2.0 * M_PI) */
     float d_pi_;
+
+    typedef boost::shared_ptr<pcl::PointCloud<PointT> > PointCloudPtr;
+    typedef const boost::shared_ptr<pcl::PointCloud<PointT> > PointCloudConstPtr;
+
+    typedef boost::shared_ptr<pcl::PointCloud<PointOUTT> > PointLPFHPtr;
+
+    typedef boost::shared_ptr<pcl::search::KdTree<PointT> > KDTreePtr;
+
+    /** \brief kdtree struct。**/
+    KDTreePtr kdtree_ptr_;
+
+    /** \brief Normal PointCloud Ptr. **/
+    boost::shared_ptr<pcl::PointCloud<pcl::Normal> > normal_ptr_;
+    /** \brief Ptr save input point cloud. **/
+    PointCloudPtr input_ptr_;
+
+    /** \brief Ptr for output LFSH point cloud **/
+    PointLPFHPtr output_ptr_;
+
 
 
 
