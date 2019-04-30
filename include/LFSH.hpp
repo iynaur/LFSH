@@ -163,18 +163,14 @@ int pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::computeDeviationAngle(
     Eigen::Vector3f source_normal,
     Eigen::Vector3f target_normal) const
 {
-    double theta(0.0);
-    double l_s(0.0);
-    double l_t(0.0);
-    l_s = sqrt(dot(source_normal, source_normal));
-    l_t = sqrt(dot(target_normal, target_normal));
-    if (dot(target_normal, source_normal) > 0.9)
+    float theta(0.0);
+    if (dot(target_normal, source_normal) > 0.995)
     {
         theta = 0.0;
     }
     else
     {
-        theta = acos(abs(dot(target_normal, source_normal) / l_s / l_t));
+        theta = acos(/*fabs*/dot(target_normal, source_normal));
     }
     if (theta < 0 || theta > M_PI)
         theta = M_PI;
@@ -183,6 +179,7 @@ int pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::computeDeviationAngle(
     std::cerr<<theta<<std::endl;
     int res = int(theta / M_PI * N2_);
     assert(res >= 0 && res < N2_);
+    return res;
 }
 
 template<typename PointInT, typename PointNT, typename PointOutT>
@@ -197,6 +194,7 @@ int pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::computeDensity(
         - pow(dot(source_point, source_normal), 2));
     int res = int(d / r_ * N3_);
     assert( res >=0 && res < N3_);
+    return res;
 }
 
 #endif //PCL_FEATURE_LFSH_H_
