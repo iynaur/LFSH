@@ -21,9 +21,9 @@ bool pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::compute(PointCloudOut& o
 {
     //For debug:
 #ifdef _DEBUG
-    const int index_1_max(0), index_1_min(33);
-    const int index_2_max(0), index_2_min(33);
-    const int index_3_max(0), index_3_min(33);
+    const int index_1_max(29), index_1_min(0);
+    const int index_2_max(29), index_2_min(0);
+    const int index_3_max(29), index_3_min(0);
 #endif
     //TODO: 这里有个问题。//解决了，注意初始化指针。
 
@@ -36,7 +36,7 @@ bool pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::compute(PointCloudOut& o
     pcl::NormalEstimationOMP<PointInT, PointNT> ne;
     ne.setInputCloud(input_ptr_);
     ne.setSearchMethod(tmp_kd_tree);
-    ne.setRadiusSearch(0.006);
+    ne.setKSearch(8);
 //    ne.setNumberOfThreads(4);
     ne.compute(*normal_ptr_);
     //TODO: 可以尝试实现用高密度点云估算法向量方向 setSearchSurface.
@@ -55,7 +55,7 @@ bool pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::compute(PointCloudOut& o
 
         if (kdtree_ptr_->radiusSearch(input_ptr_->at(i), r_, pointIdx_vector, pointDistance_vector) > 0)
         {
-            pcl::LFSHSignature tmp_signature;
+            pcl::LFSHSignature tmp_signature{};
 
 
             Eigen::Vector3f the_point_f;
@@ -153,7 +153,9 @@ int pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::computeLocalDepth(
 {
     double d(r_);
     d -= (dot(source_normal, target_point - source_point));
-    return int(d / 2 / r_ * N1_);
+    int res = int(d / 2 / r_ * N1_);
+    assert(res>=0 && res< N1_);
+    return res;
 }
 
 template<typename PointInT, typename PointNT, typename PointOutT>
@@ -179,7 +181,8 @@ int pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::computeDeviationAngle(
     //std::cout << "m_pi" << M_PI << std::endl;
     if (theta < 0.00001) return 0;//TODO:先对付着，要找一下异常值得原因
     std::cerr<<theta<<std::endl;
-    return int(theta / M_PI * N2_);
+    int res = int(theta / M_PI * N2_);
+    assert(res >= 0 && res < N2_);
 }
 
 template<typename PointInT, typename PointNT, typename PointOutT>
@@ -192,7 +195,8 @@ int pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::computeDensity(
     source_point = source_point - target_point;
     d = sqrt((source_point(0) * source_point(0) + source_point(1) * source_point(1) + source_point(2) * source_point(2))
         - pow(dot(source_point, source_normal), 2));
-    return int(d / r_ * N3_);
+    int res = int(d / r_ * N3_);
+    assert( res >=0 && res < N3_);
 }
 
 #endif //PCL_FEATURE_LFSH_H_
