@@ -4,9 +4,11 @@
 #include "LFSH.h"
 #include "LFSHSignature.h"
 
-float r_ = 1.0;
+float r_ = 0.01;
 
-int N1_, N2_, N3_;
+int N1_=10, N2_=10, N3_=10;
+
+#define _DEBUG
 
 template<typename PointInT, typename PointNT, typename PointOutT>
 void pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::computeFeature(PointCloudOut &output)
@@ -19,21 +21,23 @@ bool pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::compute(PointCloudOut& o
 {
     //For debug:
 #ifdef _DEBUG
-    int index_1_max(0), index_1_min(33);
-    int index_2_max(0), index_2_min(33);
-    int index_3_max(0), index_3_min(33);
+    const int index_1_max(0), index_1_min(33);
+    const int index_2_max(0), index_2_min(33);
+    const int index_3_max(0), index_3_min(33);
 #endif
     //TODO: 这里有个问题。//解决了，注意初始化指针。
 
+    input_ptr_ = input_;
+     kdtree_ptr_.reset(new pcl::search::KdTree<PointInT>);
     kdtree_ptr_->setInputCloud(input_ptr_);
 
     boost::shared_ptr<pcl::search::KdTree<pcl::PointXYZ> > tmp_kd_tree(new pcl::search::KdTree<pcl::PointXYZ>);
 
-    pcl::NormalEstimationOMP<PointInT, pcl::Normal> ne;
+    pcl::NormalEstimationOMP<PointInT, PointNT> ne;
     ne.setInputCloud(input_ptr_);
     ne.setSearchMethod(tmp_kd_tree);
-    ne.setRadiusSearch(0.5);
-    ne.setNumberOfThreads(4);
+    ne.setRadiusSearch(0.006);
+//    ne.setNumberOfThreads(4);
     ne.compute(*normal_ptr_);
     //TODO: 可以尝试实现用高密度点云估算法向量方向 setSearchSurface.
 
@@ -86,23 +90,23 @@ bool pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::compute(PointCloudOut& o
 
                 tmp_index_1 = computeLocalDepth(tmp_source_normal, the_point_f, tmp_point);
 #ifdef _DEBUG
-                if (tmp_index_1 > index_1_max) index_1_max = tmp_index_1;
-                if (tmp_index_1 < index_1_min) index_1_min = tmp_index_1;
+                if (tmp_index_1 > index_1_max) tmp_index_1 = index_1_max;
+                if (tmp_index_1 < index_1_min) tmp_index_1 = index_1_min;
 #endif
                 tmp_signature.histogram[tmp_index_1] += (1.0f);
 
                 tmp_index_2 = N1_ + computeDeviationAngle(tmp_source_normal, tmp_target_normal);
 #ifdef _DEBUG
-                if (tmp_index_2 > index_2_max) index_2_max = tmp_index_2;
-                if (tmp_index_2 < index_2_min) index_2_min = tmp_index_2;
+                if (tmp_index_2 > index_2_max) tmp_index_2 = index_2_max;
+                if (tmp_index_2 < index_2_min) tmp_index_2 = index_2_min;
 #endif
                 tmp_signature.histogram[tmp_index_2] += (1.0f);
 
 
                 tmp_index_3 = N1_ + N2_ + computeDensity(tmp_source_normal, the_point_f, tmp_point);
 #ifdef _DEBUG
-                if (tmp_index_3 > index_3_max) index_3_max = tmp_index_3;
-                if (tmp_index_3 < index_3_min) index_3_min = tmp_index_3;
+                if (tmp_index_3 > index_3_max) tmp_index_3 = index_3_max;
+                if (tmp_index_3 < index_3_min) tmp_index_3 = index_3_min;
 #endif
                 tmp_signature.histogram[tmp_index_3] += (1.0f);
             }
@@ -174,6 +178,7 @@ int pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::computeDeviationAngle(
         theta = M_PI;
     //std::cout << "m_pi" << M_PI << std::endl;
     if (theta < 0.00001) return 0;//TODO:先对付着，要找一下异常值得原因
+    std::cerr<<theta<<std::endl;
     return int(theta / M_PI * N2_);
 }
 

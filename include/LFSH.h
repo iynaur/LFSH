@@ -30,7 +30,8 @@ public:
     LFSHEstimation():
         nr_bins_f1_(10),nr_bins_f2_(10),nr_bins_f3_(10),
         hist_f1_(),hist_f2_(),hist_f3_(),lfsh_histogram_(),
-        d_pi_(1.0f/(2.0f*static_cast<float>(M_PI)))
+        d_pi_(1.0f/(2.0f*static_cast<float>(M_PI))),
+        normal_ptr_(new pcl::PointCloud<PointNT>)
     {
         feature_name_ = "LFSHEstimation";
     }
@@ -73,7 +74,7 @@ public:
     float d_pi_;
 
     typedef boost::shared_ptr<pcl::PointCloud<PointT> > PointCloudPtr;
-    typedef const boost::shared_ptr<pcl::PointCloud<PointT> > PointCloudConstPtr;
+    typedef boost::shared_ptr<const pcl::PointCloud<PointT> > PointCloudConstPtr;
 
     typedef boost::shared_ptr<pcl::PointCloud<PointOUTT> > PointLPFHPtr;
 
@@ -83,9 +84,9 @@ public:
     KDTreePtr kdtree_ptr_;
 
     /** \brief Normal PointCloud Ptr. **/
-    boost::shared_ptr<pcl::PointCloud<pcl::Normal> > normal_ptr_;
+    boost::shared_ptr<pcl::PointCloud<PointNT> > normal_ptr_;
     /** \brief Ptr save input point cloud. **/
-    PointCloudPtr input_ptr_;
+    PointCloudConstPtr input_ptr_;
 
     /** \brief Ptr for output LFSH point cloud **/
     PointLPFHPtr output_ptr_;
