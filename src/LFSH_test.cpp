@@ -1,5 +1,5 @@
 #include <iostream>
-
+#define PCL_NO_PRECOMPILE
 #include "LFSH.hpp"
 
 #include <pcl/io/pcd_io.h>
@@ -47,7 +47,10 @@ int main(int argc, char** argv)
     lfsh_extract.compute(*p_targetLFSH_ptr);
 
     //Registration
-
+    typedef pcl::KdTreeFLANN<LFSHSignature>::Ptr FeatureKdTreePtr;
+    FeatureKdTreePtr m_feature_tree;
+    m_feature_tree.reset(new pcl::KdTreeFLANN<LFSHSignature>);
+    m_feature_tree->setInputCloud (p_targetLFSH_ptr);
 
 
 

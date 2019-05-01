@@ -6,7 +6,7 @@
 
 float r_ = 0.01;
 
-int N1_=10, N2_=10, N3_=10;
+int N1_=11, N2_=9, N3_=10;
 
 #define _DEBUG
 
@@ -131,6 +131,7 @@ bool pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::compute(PointCloudOut& o
                 << std::endl;
         }
     }
+    if (output.size() != input_ptr_->size()) throw "error";
 #ifdef _DEBUG
     std::cout << "1:" << index_1_min << ":" << index_1_max << std::endl;
     std::cout << "2:" << index_2_min << ":" << index_2_max << std::endl;
@@ -164,7 +165,7 @@ int pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::computeDeviationAngle(
     Eigen::Vector3f target_normal) const
 {
     float theta(0.0);
-    if (dot(target_normal, source_normal) > 0.995)
+    if (dot(target_normal, source_normal) > 0.9999)
     {
         theta = 0.0;
     }
