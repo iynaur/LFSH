@@ -5,11 +5,11 @@
 
 #include <pcl/features/feature.h>
 
-#include "LFSHSignature30.h"
+#include "LFSHSignature.h"
 
 namespace pcl
 {
-template<typename PointT,typename PointNT,typename PointOUTT=pcl::LFSHSignature30>
+template<typename PointT,typename PointNT,typename PointOUTT>
 class LFSHEstimation : public FeatureFromNormals<PointT,PointNT,PointOUTT>
 {
 public:
@@ -90,6 +90,10 @@ public:
 
     /** \brief Ptr for output LFSH point cloud **/
     PointLPFHPtr output_ptr_;
+
+    float r_ = 0.01;
+
+    int N1_=N1, N2_=N2, N3_=N3;
 
 
 

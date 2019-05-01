@@ -2,13 +2,11 @@
 #define PCL_FEATURE_LFSH_IMPL_H_
 
 #include "LFSH.h"
-#include "LFSHSignature.h"
 
-float r_ = 0.01;
 
-int N1_=11, N2_=9, N3_=10;
 
-#define _DEBUG
+
+//#define LFSH_DEBUG
 
 template<typename PointInT, typename PointNT, typename PointOutT>
 void pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::computeFeature(PointCloudOut &output)
@@ -19,8 +17,9 @@ void pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::computeFeature(PointClou
 template<typename PointInT, typename PointNT, typename PointOutT>
 bool pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::compute(PointCloudOut& output)
 {
+    output.clear();
     //For debug:
-#ifdef _DEBUG
+#ifdef LFSH_DEBUG
     const int index_1_max(29), index_1_min(0);
     const int index_2_max(29), index_2_min(0);
     const int index_3_max(29), index_3_min(0);
@@ -31,7 +30,7 @@ bool pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::compute(PointCloudOut& o
      kdtree_ptr_.reset(new pcl::search::KdTree<PointInT>);
     kdtree_ptr_->setInputCloud(input_ptr_);
 
-    boost::shared_ptr<pcl::search::KdTree<pcl::PointXYZ> > tmp_kd_tree(new pcl::search::KdTree<pcl::PointXYZ>);
+    boost::shared_ptr<pcl::search::KdTree<PointInT> > tmp_kd_tree(new pcl::search::KdTree<PointInT>);
 
     pcl::NormalEstimationOMP<PointInT, PointNT> ne;
     ne.setInputCloud(input_ptr_);
@@ -89,14 +88,14 @@ bool pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::compute(PointCloudOut& o
                 int tmp_index_3(0);
 
                 tmp_index_1 = computeLocalDepth(tmp_source_normal, the_point_f, tmp_point);
-#ifdef _DEBUG
+#ifdef LFSH_DEBUG
                 if (tmp_index_1 > index_1_max) tmp_index_1 = index_1_max;
                 if (tmp_index_1 < index_1_min) tmp_index_1 = index_1_min;
 #endif
                 tmp_signature.histogram[tmp_index_1] += (1.0f);
 
                 tmp_index_2 = N1_ + computeDeviationAngle(tmp_source_normal, tmp_target_normal);
-#ifdef _DEBUG
+#ifdef LFSH_DEBUG
                 if (tmp_index_2 > index_2_max) tmp_index_2 = index_2_max;
                 if (tmp_index_2 < index_2_min) tmp_index_2 = index_2_min;
 #endif
@@ -104,7 +103,7 @@ bool pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::compute(PointCloudOut& o
 
 
                 tmp_index_3 = N1_ + N2_ + computeDensity(tmp_source_normal, the_point_f, tmp_point);
-#ifdef _DEBUG
+#ifdef LFSH_DEBUG
                 if (tmp_index_3 > index_3_max) tmp_index_3 = index_3_max;
                 if (tmp_index_3 < index_3_min) tmp_index_3 = index_3_min;
 #endif
@@ -113,7 +112,7 @@ bool pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::compute(PointCloudOut& o
             /****************************************************/
             double test_sum(0.0);
 
-            for (int k(0); k < 30; ++k)
+            for (int k(0); k < TOTAL_N; ++k)
             {
                 tmp_signature.histogram[k] = tmp_signature.histogram[k] / double(pointIdx_vector.size());
                 test_sum += tmp_signature.histogram[k];
@@ -131,8 +130,7 @@ bool pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::compute(PointCloudOut& o
                 << std::endl;
         }
     }
-    if (output.size() != input_ptr_->size()) throw "error";
-#ifdef _DEBUG
+#ifdef LFSH_DEBUG
     std::cout << "1:" << index_1_min << ":" << index_1_max << std::endl;
     std::cout << "2:" << index_2_min << ":" << index_2_max << std::endl;
     std::cout << "3:" << index_3_min << ":" << index_3_max << std::endl;
@@ -165,7 +163,7 @@ int pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::computeDeviationAngle(
     Eigen::Vector3f target_normal) const
 {
     float theta(0.0);
-    if (dot(target_normal, source_normal) > 0.9999)
+    if (dot(target_normal, source_normal) > 0.995)
     {
         theta = 0.0;
     }
@@ -177,7 +175,7 @@ int pcl::LFSHEstimation<PointInT, PointNT, PointOutT>::computeDeviationAngle(
         theta = M_PI;
     //std::cout << "m_pi" << M_PI << std::endl;
     if (theta < 0.00001) return 0;//TODO:先对付着，要找一下异常值得原因
-    std::cerr<<theta<<std::endl;
+//    std::cerr<<theta<<std::endl;
     int res = int(theta / M_PI * N2_);
     assert(res >= 0 && res < N2_);
     return res;

@@ -1,25 +1,30 @@
-#pragma once   
-#define PCL_NO_PRECOMPILE
+#pragma once
+//#define PCL_NO_PRECOMPILE
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
 #include <pcl/io/pcd_io.h>
 
+#define N1  13
+#define N2   13
+#define N3   1
+
+#define TOTAL_N N1+N2+N3
+
 namespace pcl
 {
-	struct LFSHSignature
-	{
-		//N1 local depth:10	 0-9
-		//N2 deviation angle:15	  10-24
-		//N3 density :5	   25-29
-		float histogram[30];
+typedef  FPFHSignature33 LFSHSignature;
+//  struct LFSHSignature
+//  {
 
-		static int getNumberOfDimensions() { return 30; };
+//    float histogram[TOTAL_N];
 
-		static int descriptorSize() { return 30; }
+//    static int getNumberOfDimensions() { return TOTAL_N; };
 
-	};
- 
+//    static int descriptorSize() { return TOTAL_N; }
+
+//  };
+
 }
-  POINT_CLOUD_REGISTER_POINT_STRUCT(pcl::LFSHSignature,
-		(float[30],histogram,lfsh)
-		)	
+//  POINT_CLOUD_REGISTER_POINT_STRUCT(pcl::LFSHSignature,
+//    (float[TOTAL_N],histogram,lfsh)
+//    )
