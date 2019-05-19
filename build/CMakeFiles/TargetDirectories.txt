@@ -1,3 +1,0 @@
-/home/steve/Project/LFSH/build/CMakeFiles/rebuild_cache.dir
-/home/steve/Project/LFSH/build/CMakeFiles/edit_cache.dir
-/home/steve/Project/LFSH/build/CMakeFiles/LFSH_test.dir
